@@ -1,7 +1,15 @@
 from fastapi import FastAPI
+from app.database import Base, engine
+from app.routers import canal, crack, analyze, user, log
 
 app = FastAPI()
 
-@app.get("/")
-def root():
-    return {"message": "FastAPI 서버 작동 중!"}
+# 테이블 자동 생성
+Base.metadata.create_all(bind=engine)
+
+# 라우터 등록
+app.include_router(canal.router)
+app.include_router(crack.router)
+app.include_router(analyze.router)
+app.include_router(user.router)
+app.include_router(log.router)
