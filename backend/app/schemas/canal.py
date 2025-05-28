@@ -7,3 +7,6 @@ class CanalCreate(BaseModel):
     geojson: str
     center_lat: float
     center_lon: float
+
+class Config:
+    from_attributes = True  # ✅ 최신 Pydantic v2

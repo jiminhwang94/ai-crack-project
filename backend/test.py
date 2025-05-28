@@ -16,3 +16,4 @@ try:
     print("✅ 연결 성공!")
 except Exception as e:
     print("❌ 연결 실패:", e)
+

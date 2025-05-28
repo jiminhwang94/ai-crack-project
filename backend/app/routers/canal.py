@@ -20,3 +20,4 @@ def create_canal(canal: CanalCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_canal)
     return db_canal
+

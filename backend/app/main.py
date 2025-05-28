@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.database import Base, engine
-from app.routers import canal, crack, analyze, user, log, upload
+from app.routers import canal, crack, analyze, user, log, upload, match
 
 app = FastAPI()
 
@@ -18,3 +18,6 @@ app.include_router(log.router)
 
 # 라우터 등록 - Azure Blob Storage
 app.include_router(upload.router)
+
+# 라우터 등록 - Point-in-Polygon 검사사
+app.include_router(match.router)
