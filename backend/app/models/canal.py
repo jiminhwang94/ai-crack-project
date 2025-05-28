@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, Float
 from app.database import Base
 from datetime import datetime
 
+# 농수로 정보 테이블
 class CanalInfo(Base):
     __tablename__ = "canal_info"
 

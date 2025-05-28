@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 from app.database import Base
 
+# 시스템 작업 로그 테이블
 class LogHistory(Base):
     __tablename__ = "log_history"
 

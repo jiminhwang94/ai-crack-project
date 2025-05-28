@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from datetime import datetime
 from app.database import Base
 
+# AI 분석 결과 테이블
 class CrackAnalyzed(Base):
     __tablename__ = "crack_analyzed"
 

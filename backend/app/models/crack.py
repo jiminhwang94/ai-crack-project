@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from datetime import datetime
 from app.database import Base
 
+# 균열 촬영 정보 테이블
 class CrackRaw(Base):
     __tablename__ = "crack_raw"
 

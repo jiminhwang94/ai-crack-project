@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 from app.database import Base
 
+# 사용자 정보 테이블
 class UserInfo(Base):
     __tablename__ = "user_info"
 
