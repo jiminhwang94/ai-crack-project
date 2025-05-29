@@ -9,6 +9,7 @@ class CrackRaw(Base):
     crack_id = Column(Integer, primary_key=True, index=True)
     manual_canal_id = Column(Integer)         # 사용자가 선택한 canal
     matched_canal_id = Column(Integer)        # 자동 매칭된 canal (나중에 매칭)
+    canal_number = Column(String(50))
     image_url = Column(String)
     gps_lat = Column(Float)
     gps_lon = Column(Float)

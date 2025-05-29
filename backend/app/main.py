@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.database import Base, engine
-from app.routers import canal, crack, analyze, user, log, upload, match
+from app.routers import canal, crack, analyze, user, log, upload, match, test
 
 app = FastAPI()
 
@@ -21,3 +21,5 @@ app.include_router(upload.router)
 
 # 라우터 등록 - Point-in-Polygon 검사사
 app.include_router(match.router)
+
+app.include_router(test.router)

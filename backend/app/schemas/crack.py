@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import datetime
 
 class CrackCreate(BaseModel):
-    manual_canal_id: int
+    manual_canal_id: int | None = None
     matched_canal_id: Optional[int] = None
     image_url: str
     gps_lat: float
