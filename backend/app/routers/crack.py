@@ -1,55 +1,44 @@
+# app/routers/crack.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from datetime import datetime
-from shapely.geometry import Point, shape
-import json
-
 from app.database import get_db
-from app.models.canal import CanalInfo
-from app.models.crack import CrackRaw  # crack_raw 테이블 모델
+from app.models.crack import CrackRaw
+from app.routers.match import match_canal  # 자동 매칭 함수 임포트
 from pydantic import BaseModel
 
 router = APIRouter()
 
-# Pydantic 모델
 class CrackCreate(BaseModel):
     gps_lat: float
     gps_lon: float
     image_url: str
     user_id: int
     device_type: str
-    manual_canal_id: int | None = None  # 수동 선택은 선택적
+    manual_canal_id: int | None = None
 
 @router.post("/crack")
 def register_crack(crack: CrackCreate, db: Session = Depends(get_db)):
-    point = Point(crack.gps_lon, crack.gps_lat)
-    canals = db.query(CanalInfo).all()
+    # 자동 매칭 로직
+    match_result = match_canal(crack.gps_lat, crack.gps_lon, db)
 
     matched_canal_id = None
     canal_number = None
     auto_matched = False
     matching_distance_m = None
 
-    for canal in canals:
-        try:
-            geo = json.loads(canal.geojson)
-            polygon = shape(geo)
-
-            if polygon.contains(point):
-                matched_canal_id = canal.canal_id
-                canal_number = canal.canal_number
-                auto_matched = True
-                matching_distance_m = 0.0
-                break
-
-        except Exception as e:
-            continue  # 예외 무시
+    if match_result.get("matched"):
+        matched_canal_id = match_result["canal_id"]
+        canal_number = match_result["canal_number"]
+        auto_matched = True
+        matching_distance_m = match_result.get("distance_m", 0.0)
+    else:
+        auto_matched = False
 
     db_crack = CrackRaw(
         manual_canal_id=crack.manual_canal_id,
         matched_canal_id=matched_canal_id,
-        # 현재 
-        #canal_number=canal_number,
+        canal_number=canal_number,
         image_url=crack.image_url,
         gps_lat=crack.gps_lat,
         gps_lon=crack.gps_lon,
